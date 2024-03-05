@@ -24,19 +24,19 @@ public class NosyLogger : NSObject {
         print("Got remote public key: \(remotePublicKey)")
     }
     
-    public func debug(message: String) {
+    public func debug(_ message: String) {
         print("TODO debug: \(message)")
     }
     
-    public func info(message: String) {
+    public func info(_ message: String) {
         print("TODO info: \(message)")
     }
     
-    public func warning(message: String) {
+    public func warning(_ message: String) {
         print("TODO warning: \(message)")
     }
     
-    public func error(message: String) {
+    public func error(_ message: String) {
         print("TODO error: \(message)")
     }
 }
