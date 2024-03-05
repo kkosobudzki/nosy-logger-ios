@@ -9,8 +9,14 @@ import Foundation
 
 public class NosyLogger : NSObject {
     
-    public func start(apiKey: String) {
-        print("TODO initialize with api key: \(apiKey)")
+    private var collector = Collector()
+    
+    public func start(apiKey: String) async {
+        print("Starting collector with \(apiKey)")
+        
+        let remotePublicKey = await collector.handshake(apiKey: apiKey)
+        
+        print("Got remote public key: \(remotePublicKey)")
     }
     
     public func debug(message: String) {
