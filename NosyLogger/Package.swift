@@ -14,7 +14,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.19.0")
+        .package(url: "https://github.com/grpc/grpc-swift.git", from: "1.21.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
