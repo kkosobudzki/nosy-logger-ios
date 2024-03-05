@@ -11,7 +11,7 @@ public class NosyLogger : NSObject {
     
     private var collector: Collector
     
-    init(apiKey: String) {
+    public init(apiKey: String) {
         self.collector = Collector(apiKey: apiKey)
     }
     
