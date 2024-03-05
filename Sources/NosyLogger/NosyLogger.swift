@@ -7,10 +7,12 @@
 
 import Foundation
 
+@objc
 public class NosyLogger : NSObject {
     
     private var collector: Collector
     
+    @objc
     public init(apiKey: String) {
         self.collector = Collector(apiKey: apiKey)
     }
