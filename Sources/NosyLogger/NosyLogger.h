@@ -14,5 +14,3 @@ FOUNDATION_EXPORT double loggerVersionNumber;
 FOUNDATION_EXPORT const unsigned char loggerVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <logger/PublicHeader.h>
-
-

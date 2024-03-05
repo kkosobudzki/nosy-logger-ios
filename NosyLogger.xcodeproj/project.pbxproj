@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6B6DC1402B97690D008F6A34 /* logger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B6DC13F2B97690D008F6A34 /* logger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6B6DC1402B97690D008F6A34 /* NosyLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 6B6DC13F2B97690D008F6A34 /* NosyLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6B6DC1482B97836B008F6A34 /* NosyLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B6DC1472B97836B008F6A34 /* NosyLogger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6B6DC13C2B97690D008F6A34 /* logger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = logger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6B6DC13F2B97690D008F6A34 /* logger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logger.h; sourceTree = "<group>"; };
+		6B6DC13C2B97690D008F6A34 /* NosyLogger.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NosyLogger.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B6DC13F2B97690D008F6A34 /* NosyLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NosyLogger.h; sourceTree = "<group>"; };
+		6B6DC1472B97836B008F6A34 /* NosyLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NosyLogger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,7 +31,7 @@
 		6B6DC1322B97690D008F6A34 = {
 			isa = PBXGroup;
 			children = (
-				6B6DC13E2B97690D008F6A34 /* logger */,
+				6B6DC13E2B97690D008F6A34 /* Sources */,
 				6B6DC13D2B97690D008F6A34 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -37,17 +39,26 @@
 		6B6DC13D2B97690D008F6A34 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6B6DC13C2B97690D008F6A34 /* logger.framework */,
+				6B6DC13C2B97690D008F6A34 /* NosyLogger.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6B6DC13E2B97690D008F6A34 /* logger */ = {
+		6B6DC13E2B97690D008F6A34 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				6B6DC13F2B97690D008F6A34 /* logger.h */,
+				6B6DC1462B978337008F6A34 /* NosyLogger */,
 			);
-			path = logger;
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		6B6DC1462B978337008F6A34 /* NosyLogger */ = {
+			isa = PBXGroup;
+			children = (
+				6B6DC13F2B97690D008F6A34 /* NosyLogger.h */,
+				6B6DC1472B97836B008F6A34 /* NosyLogger.swift */,
+			);
+			path = NosyLogger;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -57,16 +68,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6B6DC1402B97690D008F6A34 /* logger.h in Headers */,
+				6B6DC1402B97690D008F6A34 /* NosyLogger.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		6B6DC13B2B97690D008F6A34 /* logger */ = {
+		6B6DC13B2B97690D008F6A34 /* NosyLogger */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6B6DC1432B97690D008F6A34 /* Build configuration list for PBXNativeTarget "logger" */;
+			buildConfigurationList = 6B6DC1432B97690D008F6A34 /* Build configuration list for PBXNativeTarget "NosyLogger" */;
 			buildPhases = (
 				6B6DC1372B97690D008F6A34 /* Headers */,
 				6B6DC1382B97690D008F6A34 /* Sources */,
@@ -77,9 +88,9 @@
 			);
 			dependencies = (
 			);
-			name = logger;
+			name = NosyLogger;
 			productName = logger;
-			productReference = 6B6DC13C2B97690D008F6A34 /* logger.framework */;
+			productReference = 6B6DC13C2B97690D008F6A34 /* NosyLogger.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -93,10 +104,11 @@
 				TargetAttributes = {
 					6B6DC13B2B97690D008F6A34 = {
 						CreatedOnToolsVersion = 15.2;
+						LastSwiftMigration = 1520;
 					};
 				};
 			};
-			buildConfigurationList = 6B6DC1362B97690D008F6A34 /* Build configuration list for PBXProject "logger" */;
+			buildConfigurationList = 6B6DC1362B97690D008F6A34 /* Build configuration list for PBXProject "NosyLogger" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -109,7 +121,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6B6DC13B2B97690D008F6A34 /* logger */,
+				6B6DC13B2B97690D008F6A34 /* NosyLogger */,
 			);
 		};
 /* End PBXProject section */
@@ -129,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B6DC1482B97836B008F6A34 /* NosyLogger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,6 +276,7 @@
 		6B6DC1442B97690D008F6A34 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -286,6 +300,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -294,6 +309,7 @@
 		6B6DC1452B97690D008F6A34 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -325,7 +341,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		6B6DC1362B97690D008F6A34 /* Build configuration list for PBXProject "logger" */ = {
+		6B6DC1362B97690D008F6A34 /* Build configuration list for PBXProject "NosyLogger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B6DC1412B97690D008F6A34 /* Debug */,
@@ -334,7 +350,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6B6DC1432B97690D008F6A34 /* Build configuration list for PBXNativeTarget "logger" */ = {
+		6B6DC1432B97690D008F6A34 /* Build configuration list for PBXNativeTarget "NosyLogger" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				6B6DC1442B97690D008F6A34 /* Debug */,

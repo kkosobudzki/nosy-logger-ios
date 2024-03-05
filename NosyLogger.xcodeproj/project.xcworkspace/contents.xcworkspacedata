@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:">
+      location = "self:/Users/krzychu/workspace/side/nosy/logger/ios/NosyLogger.xcodeproj">
    </FileRef>
 </Workspace>
