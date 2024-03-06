@@ -63,7 +63,9 @@ class Encryptor {
     
     func deriveSharedSecret(otherPublicKey: String) throws -> String {
         let attributes = [
-            kSecAttrKeySizeInBits: 256
+            kSecAttrKeySizeInBits: 256,
+            kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
+            SecKeyKeyExchangeParameter.requestedSize.rawValue: 32,
         ] as CFDictionary
         
         print("deriveSharedSecret, other: \(otherPublicKey)")
