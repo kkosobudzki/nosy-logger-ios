@@ -43,15 +43,6 @@ class Collector {
         return response!.key
     }
     
-//    private func mapToLog(encryptor: Encryptor, log: TmpLog) -> NosyLogger_Log {
-//        return .with {
-//            $0.date = log.date
-//            $0.level = NosyLogger_Level.info // TODO
-//            $0.message = encryptor.encrypt(message: log.message)
-//            $0.publicKey = encryptor.publicKey
-//        }
-//    }
-//    
     func log(logs: [NosyLogger_Log]) async throws {
         let request: NosyLogger_Logs = .with {
             $0.logs = logs

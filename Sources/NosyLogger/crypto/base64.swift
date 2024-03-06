@@ -7,9 +7,13 @@
 
 import Foundation
 
+enum Base64Error : Error {
+    case invalidEncoding
+}
+
 func decodePublicKey(publicKey: String) throws -> SecKey {
     guard let data = Data(base64Encoded: publicKey) else {
-        throw EncryptorError.invalidEncoding
+        throw Base64Error.invalidEncoding
     }
     
     let attributes = [
