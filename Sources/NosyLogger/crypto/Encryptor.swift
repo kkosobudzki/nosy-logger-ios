@@ -6,13 +6,18 @@
 //
 
 import Foundation
+import CryptoKit
+
+enum EncryptorError : Error {
+    case convertedDataIsNil
+}
 
 class Encryptor {
     
     private let keyExchange = KeyExchange()
-    private let sharedSecret: String
+    private let sharedSecret: SymmetricKey
     
-    let publicKey: String // TODO public
+    let publicKey: String
     
     init(remotePublicKey: String) throws {
         let keyExchange = KeyExchange()
@@ -21,7 +26,14 @@ class Encryptor {
         self.publicKey = try keyExchange.getPublicKey()
     }
     
-    func encrypt(message: String) -> String {
-        return "TODO encrypt with cha cha"
+    func encrypt(plaintext: String) throws -> String {
+        guard let data = plaintext.data(using: .utf8) else {
+            throw EncryptorError.convertedDataIsNil
+        }
+        
+        let sealedBox = try ChaChaPoly.seal(data, using: sharedSecret)
+        let combined = sealedBox.nonce + sealedBox.combined
+        
+        return combined.base64EncodedString()
     }
 }

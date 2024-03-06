@@ -78,7 +78,7 @@ public class NosyLogger : NSObject {
             return .with {
                 $0.date = ISO8601DateFormatter().string(from: log.date)
                 $0.level = log.level
-                $0.message = e.encrypt(message: log.message)
+                $0.message = try! e.encrypt(plaintext: log.message)
                 $0.publicKey = e.publicKey
             }
         }
