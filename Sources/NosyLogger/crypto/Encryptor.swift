@@ -31,8 +31,7 @@ class Encryptor {
         }
         
         let sealedBox = try ChaChaPoly.seal(data, using: sharedSecret)
-        let combined = sealedBox.nonce + sealedBox.ciphertext
         
-        return combined.base64EncodedString()
+        return sealedBox.combined.base64EncodedString()
     }
 }
