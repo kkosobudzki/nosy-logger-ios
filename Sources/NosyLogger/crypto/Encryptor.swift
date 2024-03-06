@@ -10,9 +10,9 @@ import Foundation
 class Encryptor {
     
     private let keyExchange = KeyExchange()
-    
-    private let publicKey: String // TODO public
     private let sharedSecret: String
+    
+    let publicKey: String // TODO public
     
     init(remotePublicKey: String) throws {
         let keyExchange = KeyExchange()
