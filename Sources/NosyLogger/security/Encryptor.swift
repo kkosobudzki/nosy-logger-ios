@@ -49,9 +49,13 @@ class Encryptor {
           
         var error: Unmanaged<CFError>?
         
+        print("decodePublicKey, data: \(data)")
+        
         guard let publicKey: SecKey = SecKeyCreateWithData(data as CFData, attributes as CFDictionary, &error) else {
             throw error!.takeRetainedValue() as Error
         }
+        
+        print("decodePublicKey, after, error: \(error)")
           
         if error != nil {
             throw error!.takeRetainedValue() as Error
