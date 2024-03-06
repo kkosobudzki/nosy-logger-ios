@@ -21,5 +21,5 @@ func decodePublicKey(publicKey: String) throws -> P256.KeyAgreement.PublicKey {
 }
 
 func encodePublicKey(publicKey: P256.KeyAgreement.PublicKey) -> String {
-    return publicKey.rawRepresentation.base64EncodedString()
+    return publicKey.derRepresentation.base64EncodedString()
 }
