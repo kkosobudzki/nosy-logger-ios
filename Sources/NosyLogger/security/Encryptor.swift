@@ -44,7 +44,7 @@ class Encryptor {
         }
         
         let attributes = [
-            kSecAttrKeyType: kSecAttrKeyTypeRSA,
+            kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
             kSecAttrKeyClass: kSecAttrKeyClassPublic
         ] as CFDictionary
           
