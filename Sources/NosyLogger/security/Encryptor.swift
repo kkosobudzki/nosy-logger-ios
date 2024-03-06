@@ -45,18 +45,14 @@ class Encryptor {
         
         let attributes = [
             kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecAttrKeyClass: kSecAttrKeyClassPublic
+            kSecAttrKeyClass: kSecAttrKeyClassPublic,
         ] as CFDictionary
           
         var error: Unmanaged<CFError>?
         
-        print("decodePublicKey, data: \(data)")
-        
         guard let publicKey: SecKey = SecKeyCreateWithData(data as CFData, attributes, &error) else {
             throw error!.takeRetainedValue() as Error
         }
-        
-        print("decodePublicKey, after, error: \(error)")
           
         if error != nil {
             throw error!.takeRetainedValue() as Error
@@ -70,10 +66,16 @@ class Encryptor {
             kSecAttrKeySizeInBits: 256
         ] as CFDictionary
         
+        print("deriveSharedSecret, other: \(otherPublicKey)")
+        
         let remotePublicKey = try decodePublicKey(publicKey: otherPublicKey)
+        
+        print("deriveSharedSecret, remote: \(remotePublicKey)")
         
         // TODO move it somewhre else
         let keyPair = try generateKeyPair()
+        
+        print("deriveSharedSecret, keyPair: \(keyPair)")
         
         var error: Unmanaged<CFError>?
         
@@ -86,6 +88,8 @@ class Encryptor {
         ) else {
             throw error!.takeRetainedValue() as Error
         }
+        
+        print("deriveSharedSecret, error: \(error)")
         
         if error != nil {
             throw error!.takeRetainedValue() as Error
