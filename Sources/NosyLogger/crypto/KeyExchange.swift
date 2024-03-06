@@ -74,13 +74,10 @@ class KeyExchange {
 //    }
     
     func deriveSharedSecret(otherPublicKey: String) throws -> SymmetricKey {
-        print("deriveSharedSecret, otherPublicKey: \(otherPublicKey)")
         let privateKey = P256.KeyAgreement.PrivateKey()
         
-        print("deriveSharedSecret, privateKey: \(privateKey)")
         self.publicKey = encodePublicKey(publicKey: privateKey.publicKey)
         
-        print("deriveSharedSecret, publicKey: \(self.publicKey)")
         let remotePublicKey = try decodePublicKey(publicKey: otherPublicKey)
         print("deriveSharedSecret, remotePublicKye: \(remotePublicKey)")
         let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: remotePublicKey)

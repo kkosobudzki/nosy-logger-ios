@@ -40,7 +40,7 @@ func decodePublicKey(publicKey: String) throws -> P256.KeyAgreement.PublicKey {
         throw Base64Error.invalidEncoding
     }
     
-    return try P256.KeyAgreement.PublicKey(rawRepresentation: data)
+    return try P256.KeyAgreement.PublicKey(x963Representation: data)
 }
 
 //func encodePublicKey(publicKey: SecKey) throws -> String {
@@ -58,5 +58,5 @@ func decodePublicKey(publicKey: String) throws -> P256.KeyAgreement.PublicKey {
 //}
 
 func encodePublicKey(publicKey: P256.KeyAgreement.PublicKey) -> String {
-    return publicKey.rawRepresentation.base64EncodedString()
+    return publicKey.x963Representation.base64EncodedString()
 }
