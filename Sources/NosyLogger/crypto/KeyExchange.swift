@@ -8,11 +8,13 @@
 import Foundation
 import Security
 
-class Encryptor {
+enum KeyExchangeError : Error  {
+    case keyPairNotGenerated
+}
+
+class KeyExchange {
     
-    enum EncryptorError : Error  {
-        case invalidEncoding
-    }
+    private var publicKey: String?
     
     private func generateKeyPair() throws -> (privateKey: SecKey, publicKey: SecKey) {
         let attributes = [
@@ -38,29 +40,6 @@ class Encryptor {
         return (privateKey, publicKey)
     }
     
-    private func decodePublicKey(publicKey: String) throws -> SecKey {
-        guard let data = Data(base64Encoded: publicKey) else {
-            throw EncryptorError.invalidEncoding
-        }
-        
-        let attributes = [
-            kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecAttrKeyClass: kSecAttrKeyClassPublic,
-        ] as CFDictionary
-          
-        var error: Unmanaged<CFError>?
-        
-        guard let publicKey: SecKey = SecKeyCreateWithData(data as CFData, attributes, &error) else {
-            throw error!.takeRetainedValue() as Error
-        }
-          
-        if error != nil {
-            throw error!.takeRetainedValue() as Error
-        }
-          
-        return publicKey
-    }
-    
     func deriveSharedSecret(otherPublicKey: String) throws -> String {
         let attributes = [
             kSecAttrKeySizeInBits: 256,
@@ -68,16 +47,11 @@ class Encryptor {
             SecKeyKeyExchangeParameter.requestedSize.rawValue: 32,
         ] as CFDictionary
         
-        print("deriveSharedSecret, other: \(otherPublicKey)")
-        
         let remotePublicKey = try decodePublicKey(publicKey: otherPublicKey)
         
-        print("deriveSharedSecret, remote: \(remotePublicKey)")
-        
-        // TODO move it somewhre else
         let keyPair = try generateKeyPair()
         
-        print("deriveSharedSecret, keyPair: \(keyPair)")
+        self.publicKey = try encodePublicKey(publicKey: keyPair.publicKey)
         
         var error: Unmanaged<CFError>?
         
@@ -91,12 +65,18 @@ class Encryptor {
             throw error!.takeRetainedValue() as Error
         }
         
-        print("deriveSharedSecret, error: \(error)")
-        
         if error != nil {
             throw error!.takeRetainedValue() as Error
         }
         
         return (sharedSecret as Data).base64EncodedString()
+    }
+    
+    func getPublicKey() throws -> String {
+        if publicKey == nil {
+            throw KeyExchangeError.keyPairNotGenerated
+        }
+        
+        return publicKey!
     }
 }
