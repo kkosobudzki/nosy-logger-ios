@@ -22,7 +22,6 @@ class Encryptor {
         let keyExchange = KeyExchange()
         
         self.sharedSecret = try keyExchange.deriveSharedSecret(otherPublicKey: remotePublicKey)
-        print("Encryptor, sharedSecret: \(self.sharedSecret)")
         self.publicKey = try keyExchange.getPublicKey()
     }
     
@@ -32,7 +31,7 @@ class Encryptor {
         }
         
         let sealedBox = try ChaChaPoly.seal(data, using: sharedSecret)
-        let combined = sealedBox.nonce + sealedBox.combined
+        let combined = sealedBox.nonce + sealedBox.ciphertext
         
         return combined.base64EncodedString()
     }

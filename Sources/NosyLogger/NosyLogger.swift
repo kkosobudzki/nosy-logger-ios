@@ -20,6 +20,7 @@ public class NosyLogger : NSObject {
     
     @objc
     public func start(apiKey: String) async {
+        // TODO move to scheduler
         do {
             self.collector = try Collector(apiKey: apiKey)
             
