@@ -32,12 +32,6 @@ class Encryptor {
         
         let sealedBox = try ChaChaPoly.seal(data, using: sharedSecret)
         
-        print("nonce: \(sealedBox.nonce)")
-        print("ciphertext: \(sealedBox.ciphertext)")
-        print("tag: \(sealedBox.tag)")
-        print("combined: \(sealedBox.combined)")
-        print("manual: \(sealedBox.nonce + sealedBox.ciphertext + sealedBox.tag)")
-        
         return sealedBox.combined.base64EncodedString()
     }
 }
