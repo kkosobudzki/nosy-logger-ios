@@ -15,15 +15,15 @@ class Encryptor {
     }
     
     private func generateKeyPair() throws -> (privateKey: SecKey, publicKey: SecKey) {
-        let attributes: [String: Any] = [
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom,
-            kSecAttrKeySizeInBits as String: 256,
-            kSecAttrIsPermanent as String: false,
-        ]
+        let attributes = [
+            kSecAttrKeyType: kSecAttrKeyTypeECSECPrimeRandom,
+            kSecAttrKeySizeInBits: 256,
+            kSecAttrIsPermanent: false,
+        ] as CFDictionary
 
         var error: Unmanaged<CFError>?
         
-        guard let privateKey: SecKey = SecKeyCreateRandomKey(attributes as CFDictionary, &error) else {
+        guard let privateKey: SecKey = SecKeyCreateRandomKey(attributes, &error) else {
             throw error!.takeRetainedValue() as Error
         }
         
@@ -43,15 +43,16 @@ class Encryptor {
             throw EncryptorError.invalidEncoding
         }
         
-        let attributes: [String: Any] = [
-            kSecAttrKeyType as String: kSecAttrKeyTypeECSECPrimeRandom
-        ]
+        let attributes = [
+            kSecAttrKeyType: kSecAttrKeyTypeRSA,
+            kSecAttrKeyClass: kSecAttrKeyClassPublic
+        ] as CFDictionary
           
         var error: Unmanaged<CFError>?
         
         print("decodePublicKey, data: \(data)")
         
-        guard let publicKey: SecKey = SecKeyCreateWithData(data as CFData, attributes as CFDictionary, &error) else {
+        guard let publicKey: SecKey = SecKeyCreateWithData(data as CFData, attributes, &error) else {
             throw error!.takeRetainedValue() as Error
         }
         
@@ -65,9 +66,9 @@ class Encryptor {
     }
     
     func deriveSharedSecret(otherPublicKey: String) throws -> String {
-        let attributes: [String: Any] = [
-            kSecAttrKeySizeInBits as String: 256
-        ]
+        let attributes = [
+            kSecAttrKeySizeInBits: 256
+        ] as CFDictionary
         
         let remotePublicKey = try decodePublicKey(publicKey: otherPublicKey)
         
@@ -80,7 +81,7 @@ class Encryptor {
             keyPair.privateKey,
             .ecdhKeyExchangeStandardX963SHA256,
             remotePublicKey,
-            attributes as CFDictionary,
+            attributes,
             &error
         ) else {
             throw error!.takeRetainedValue() as Error
