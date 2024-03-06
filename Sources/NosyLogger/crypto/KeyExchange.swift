@@ -24,9 +24,10 @@ class KeyExchange {
         let remotePublicKey = try decodePublicKey(publicKey: otherPublicKey)
         let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: remotePublicKey)
         
-        return sharedSecret.x963DerivedSymmetricKey(
-            using: SHA256.self, sharedInfo: Data(), outputByteCount: 32
-        )
+//        return sharedSecret.x963DerivedSymmetricKey(
+//            using: SHA256.self, sharedInfo: Data(), outputByteCount: 32
+//        )
+        return sharedSecret.withUnsafeBytes { SymmetricKey(data: $0) }
     }
     
     func getPublicKey() throws -> String {
