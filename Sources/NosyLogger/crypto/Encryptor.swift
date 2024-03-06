@@ -14,7 +14,6 @@ enum EncryptorError : Error {
 
 class Encryptor {
     
-    private let keyExchange = KeyExchange()
     private let sharedSecret: SymmetricKey
     
     let publicKey: String
@@ -23,6 +22,7 @@ class Encryptor {
         let keyExchange = KeyExchange()
         
         self.sharedSecret = try keyExchange.deriveSharedSecret(otherPublicKey: remotePublicKey)
+        print("Encryptor, sharedSecret: \(self.sharedSecret)")
         self.publicKey = try keyExchange.getPublicKey()
     }
     
