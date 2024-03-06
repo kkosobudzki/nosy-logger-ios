@@ -19,9 +19,14 @@ public class NosyLogger : NSObject {
     
     public func start() async {
         let publicKey = "TODO generate public key"
-        let remotePublicKey = await collector.handshake(publicKey)
         
-        print("Got remote public key: \(remotePublicKey)")
+        do {
+            let remotePublicKey = try await collector.handshake(publicKey)
+            
+            print("Got remote public key: \(remotePublicKey)")
+        } catch {
+            print("handshake failed: \(error)")
+        }
     }
     
     public func debug(_ message: String) {
