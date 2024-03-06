@@ -11,25 +11,15 @@ import Foundation
 public class NosyLogger : NSObject {
     
     private var collector: Collector?
-    private var keyExchange: KeyExchange = KeyExchange()
+    private var encryptor: Encryptor?
     
     public func start(apiKey: String) async {
-        let publicKey = "TODO generate public key"
-        
         do {
             self.collector = try Collector(apiKey: apiKey)
             
-            let remotePublicKey = try await collector?.handshake(publicKey)
+            let remotePublicKey = try await collector!.handshake()
             
-            if (remotePublicKey == nil) {
-                print("Remote public key is nil :(")
-            } else {
-                print("Got remote public key: \(remotePublicKey!)")
-                
-                let sharedSecret = try keyExchange.deriveSharedSecret(otherPublicKey: remotePublicKey!)
-                
-                print("Calculated shared secret: \(sharedSecret)")
-            }
+            self.encryptor = try Encryptor(remotePublicKey: remotePublicKey)
         } catch {
             print("handshake failed: \(error)")
         }

@@ -33,9 +33,7 @@ class Collector {
         )
     }
     
-    func handshake(_ publicKey: String) async throws -> String {
-        // TODO what about public key?
-        
+    func handshake() async throws -> String {
         let response = try await self.stub?.handshake(NosyLogger_Empty())
         
         if (response == nil) {
