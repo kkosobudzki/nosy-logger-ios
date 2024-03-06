@@ -10,18 +10,15 @@ import Foundation
 @objc
 public class NosyLogger : NSObject {
     
-    private var collector: Collector
+    private var collector: Collector?
     
-    @objc
-    public init(apiKey: String) throws {
-        self.collector = try Collector(apiKey: apiKey)
-    }
-    
-    public func start() async {
+    public func start(apiKey: String) async {
         let publicKey = "TODO generate public key"
         
         do {
-            let remotePublicKey = try await collector.handshake(publicKey)
+            self.collector = try Collector(apiKey: apiKey)
+            
+            let remotePublicKey = try await collector?.handshake(publicKey)
             
             print("Got remote public key: \(remotePublicKey)")
         } catch {
