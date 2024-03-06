@@ -13,8 +13,8 @@ public class NosyLogger : NSObject {
     private var collector: Collector
     
     @objc
-    public init(apiKey: String) {
-        self.collector = Collector(apiKey: apiKey)
+    public init(apiKey: String) throws {
+        self.collector = try Collector(apiKey: apiKey)
     }
     
     public func start() async {
