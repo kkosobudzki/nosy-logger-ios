@@ -20,7 +20,7 @@ class Collector {
     
     init(apiKey: String) throws {
         let channel = try GRPCChannelPool.with(
-            target: createConnectionTarget(),
+            target: .host("127.0.0.1", port: 10_000), // TODO LOL WHY IT CANNOT BE SET WITH ENV???
             transportSecurity: .plaintext, // TODO TLS
             eventLoopGroup: PlatformSupport.makeEventLoopGroup(loopCount: 1)
         )
@@ -32,20 +32,6 @@ class Collector {
                 timeLimit: .timeout(.seconds(15))
             )
         )
-    }
-    
-    private func createConnectionTarget() throws -> ConnectionTarget {
-        guard let url = ProcessInfo.processInfo.environment["COLLECTOR_URL"] else {
-            throw CollectorError.urlNotSet
-        }
-        
-        let target = url.components(separatedBy: ":")
-        
-        if target.count == 1 {
-            return .host(target[0])
-        }
-        
-        return .host(target[0], port: Int(target[1]) ?? 443)
     }
     
     func handshake() async throws -> String {

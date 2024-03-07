@@ -7,28 +7,17 @@
 
 import Foundation
 
-enum NosyLoggerError : Error {
-    case encryptorIsNil
-    case collectorIsNil
-}
-
 @objc
 public class NosyLogger : NSObject {
     
-    private var collector: Collector?
-    private var encryptor: Encryptor?
+    private var scheduler: Scheduler?
     
     @objc
-    public func start(apiKey: String) async {
-        // TODO move to scheduler
+    public func start(apiKey: String) {
         do {
-            self.collector = try Collector(apiKey: apiKey)
-            
-            let remotePublicKey = try await collector!.handshake()
-            
-            self.encryptor = try Encryptor(remotePublicKey: remotePublicKey)
+            self.scheduler = try Scheduler(apiKey: apiKey)
         } catch {
-            print("handshake failed: \(error)")
+            print("NosyLogger :: start failed: \(error)")
         }
     }
     
@@ -52,38 +41,13 @@ public class NosyLogger : NSObject {
         log(message, NosyLogger_Level.error)
     }
     
-    // TODO move to Scheduler
     private func log(_ message: String, _ level: NosyLogger_Level) {
-        do {
-            if let c = self.collector {
-                let log = TmpLog(
-                    message: message,
-                    date: Date(),
-                    level: level
-                )
-                
-                Task {
-                    try await c.log(logs: [try mapToLog(log: log)])
-                }
-            } else {
-                throw NosyLoggerError.collectorIsNil
-            }
-        } catch {
-            print("Error while logging: \(error)")
-        }
-    }
-    
-    // TODO move to Scheduler
-    private func mapToLog(log: TmpLog) throws -> NosyLogger_Log {
-        if let e = self.encryptor {
-            return .with {
-                $0.date = ISO8601DateFormatter().string(from: log.date)
-                $0.level = log.level
-                $0.message = try! e.encrypt(plaintext: log.message)
-                $0.publicKey = e.publicKey
-            }
-        }
+        let log = TmpLog(
+            message: message,
+            date: Date(),
+            level: level
+        )
         
-        throw NosyLoggerError.encryptorIsNil
+        self.scheduler?.schedule(log: log)
     }
 }
