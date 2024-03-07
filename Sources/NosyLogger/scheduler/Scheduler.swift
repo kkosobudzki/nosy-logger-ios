@@ -10,8 +10,8 @@ import Foundation
 class Scheduler {
     
     private var timer: Timer?
-    private var logs: [TmpLog] = []
     
+    private let buffer = Buffer()
     private let collector: Collector
     
     init(apiKey: String) throws {
@@ -22,27 +22,35 @@ class Scheduler {
     private func sendLogs() {
         print("scheduled task is running")
         
-        Task {
-            do {
-                let remotePublicKey = try await collector.handshake()
-                
-                let encryptor = try Encryptor(remotePublicKey: remotePublicKey)
-                
-                let encrypted = try self.logs.map(mapToLog(encryptor))
-                self.logs.removeAll()
-                
-                let _ = try await collector.log(logs: encrypted)
-            } catch {
-                print("NosyLogger :: Scheduler :: sendLogs failed: \(error)")
+        let logs = self.buffer.evict()
+        
+        if logs.isEmpty {
+           print("nothing to log, skipping")
+        } else {
+            Task {
+                do {
+                    try await encryptAndSendLogs(logs)
+                } catch {
+                    print("NosyLogger :: Scheduler :: sendLogs failed: \(error)")
+                }
             }
         }
         
         self.timer?.invalidate()
         
-        scheduleSendLogs(interval: 900) // 15 minutes
+        scheduleSendLogs(interval: 20) // 15 minutes // TODO tmp
     }
     
-    private func mapToLog(_ encryptor: Encryptor) throws -> (TmpLog) -> NosyLogger_Log {
+    private func encryptAndSendLogs(_ raw: [TmpLog]) async throws {
+        let remotePublicKey = try await collector.handshake()
+        
+        let encryptor = try Encryptor(remotePublicKey: remotePublicKey)
+        let encrypted = try raw.map(encrypt(encryptor))
+        
+        let _ = try await collector.log(logs: encrypted)
+    }
+    
+    private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> NosyLogger_Log {
         return { log in
             .with {
                 $0.date = ISO8601DateFormatter().string(from: log.date)
@@ -64,7 +72,7 @@ class Scheduler {
     }
     
     func schedule(log: TmpLog) {
-        self.logs.append(log)
+        self.buffer.push(log)
         
         if self.timer == nil {
             scheduleSendLogs(interval: 15) // initial log in 15 seconds
