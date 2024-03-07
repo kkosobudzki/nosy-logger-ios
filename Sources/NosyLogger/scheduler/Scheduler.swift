@@ -20,13 +20,9 @@ class Scheduler {
     
     @objc
     private func sendLogs() {
-        print("scheduled task is running")
-        
         let logs = self.buffer.evict()
         
-        if logs.isEmpty {
-           print("nothing to log, skipping")
-        } else {
+        if !logs.isEmpty {
             Task {
                 do {
                     try await encryptAndSendLogs(logs)
@@ -38,7 +34,7 @@ class Scheduler {
         
         self.timer?.invalidate()
         
-        scheduleSendLogs(interval: 20) // 15 minutes // TODO tmp
+        scheduleSendLogs(interval: 900) // 15 minutes
     }
     
     private func encryptAndSendLogs(_ raw: [TmpLog]) async throws {
