@@ -8,6 +8,7 @@
 import Foundation
 import GRPC
 import NIO
+import NIOSSL
 
 enum CollectorError: Error {
     case nilResponse
@@ -19,9 +20,13 @@ class Collector {
     private var stub: NosyLogger_LoggerAsyncClient?
     
     init(apiKey: String) throws {
+        let configuration = GRPCTLSConfiguration.makeServerConfigurationBackedByNIOSSL(
+            configuration: TLSConfiguration.makeClientConfiguration()
+        )
+        
         let channel = try GRPCChannelPool.with(
-            target: .host("127.0.0.1", port: 10_000), // TODO LOL WHY IT CANNOT BE SET WITH ENV???
-            transportSecurity: .plaintext, // TODO TLS
+            target: .host("logger-collector.fly.dev"), // TODO LOL WHY IT CANNOT BE SET WITH ENV??? Or maybe provide server side configuration bound to a domain? XD
+            transportSecurity: .tls(configuration),
             eventLoopGroup: PlatformSupport.makeEventLoopGroup(loopCount: 1)
         )
             
