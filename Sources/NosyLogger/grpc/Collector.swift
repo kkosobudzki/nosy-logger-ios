@@ -24,7 +24,7 @@ class Collector {
         )
         
         let channel = try GRPCChannelPool.with(
-            target: .host(COLLECTOR_URL),
+            target: .host("logger-collector.fly.dev"),
             transportSecurity: .tls(configuration),
             eventLoopGroup: PlatformSupport.makeEventLoopGroup(loopCount: 1)
         )
