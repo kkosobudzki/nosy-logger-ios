@@ -12,7 +12,6 @@ import NIOSSL
 
 enum CollectorError: Error {
     case nilResponse
-    case collectorUrlEnvVariableNotSet
 }
 
 class Collector {
