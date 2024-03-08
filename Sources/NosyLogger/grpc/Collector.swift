@@ -12,7 +12,7 @@ import NIOSSL
 
 enum CollectorError: Error {
     case nilResponse
-    case urlNotSet
+    case collectorUrlEnvVariableNotSet
 }
 
 class Collector {
@@ -20,12 +20,16 @@ class Collector {
     private var stub: NosyLogger_LoggerAsyncClient?
     
     init(apiKey: String) throws {
+        guard let collectorUrl = ProcessInfo.processInfo.environment["COLLECTOR_URL"] else {
+            throw CollectorError.collectorUrlEnvVariableNotSet
+        }
+        
         let configuration = GRPCTLSConfiguration.makeServerConfigurationBackedByNIOSSL(
             configuration: TLSConfiguration.makeClientConfiguration()
         )
         
         let channel = try GRPCChannelPool.with(
-            target: .host("logger-collector.fly.dev"), // TODO LOL WHY IT CANNOT BE SET WITH ENV??? Or maybe provide server side configuration bound to a domain? XD
+            target: .host(collectorUrl),
             transportSecurity: .tls(configuration),
             eventLoopGroup: PlatformSupport.makeEventLoopGroup(loopCount: 1)
         )
