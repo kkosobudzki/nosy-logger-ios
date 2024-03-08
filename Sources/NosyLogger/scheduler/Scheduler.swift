@@ -28,6 +28,8 @@ class Scheduler {
                     try await encryptAndSendLogs(logs)
                 } catch {
                     print("NosyLogger :: Scheduler :: sendLogs failed: \(error)")
+                    
+                    // TODO logs should be insterted to the buffer then
                 }
             }
         }
@@ -39,15 +41,11 @@ class Scheduler {
     
     private func encryptAndSendLogs(_ raw: [TmpLog]) async throws {
         let remotePublicKey = try await collector.handshake()
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs: got remote public key \(remotePublicKey)")
         
         let encryptor = try Encryptor(remotePublicKey: remotePublicKey)
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs: created encryptor")
         let encrypted = try raw.map(encrypt(encryptor))
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs: encrypted")
         
         let _ = try await collector.log(logs: encrypted)
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs: sent")
     }
     
     private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> NosyLogger_Log {

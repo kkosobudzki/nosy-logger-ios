@@ -9,6 +9,8 @@ import Foundation
 
 class Buffer {
     
+    // TODO should be backed by local storage
+    
     private var logs: [TmpLog] = []
     
     func push(_ log: TmpLog) {
