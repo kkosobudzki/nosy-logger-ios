@@ -23,11 +23,19 @@ class Collector {
             configuration: TLSConfiguration.makeClientConfiguration()
         )
         
+        let group = PlatformSupport.makeEventLoopGroup(loopCount: 1)
+        
         let channel = try GRPCChannelPool.with(
             target: .host("logger-collector.fly.dev"),
-            transportSecurity: .tls(configuration),
-            eventLoopGroup: PlatformSupport.makeEventLoopGroup(loopCount: 1)
-        )
+            transportSecurity: .tls(configuration), 
+            eventLoopGroup: group
+        ) {
+            $0.connectionBackoff = ConnectionBackoff(
+                maximumBackoff: 0,
+                minimumConnectionTimeout: 15,
+                retries: .unlimited
+            )
+        }
             
         self.stub = NosyLogger_LoggerAsyncClient(
             channel: channel,
