@@ -29,14 +29,12 @@ class Scheduler {
                 } catch {
                     print("NosyLogger :: Scheduler :: sendLogs failed: \(error)")
                     
-                    // TODO logs should be insterted to the buffer then
+                    self.buffer.pushAll(logs)
                 }
             }
         }
         
-        self.timer?.invalidate()
-        
-        scheduleSendLogs(interval: 900) // 15 minutes
+        scheduleSendLogs(interval: 60, force: true) // 1 minute
     }
     
     private func encryptAndSendLogs(_ raw: [TmpLog]) async throws {
@@ -59,22 +57,24 @@ class Scheduler {
         }
     }
     
-    private func scheduleSendLogs(interval: TimeInterval) {
-        self.timer = Timer.scheduledTimer(
-            timeInterval: interval,
-            target: self,
-            selector: #selector(sendLogs),
-            userInfo: nil,
-            repeats: false
-        )
+    private func scheduleSendLogs(interval: TimeInterval, force: Bool = false) {
+        if self.timer == nil || force {
+            self.timer?.invalidate()
+            
+            self.timer = Timer.scheduledTimer(
+                timeInterval: interval,
+                target: self,
+                selector: #selector(sendLogs),
+                userInfo: nil,
+                repeats: false
+            )
+        }
     }
     
     func schedule(log: TmpLog) {
         self.buffer.push(log)
         
-        if self.timer == nil {
-            scheduleSendLogs(interval: 15) // initial log in 15 seconds
-        }
+        scheduleSendLogs(interval: 15) // initial log in 15 seconds
     }
     
     deinit {

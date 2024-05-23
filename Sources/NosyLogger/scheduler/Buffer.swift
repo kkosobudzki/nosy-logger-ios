@@ -9,12 +9,14 @@ import Foundation
 
 class Buffer {
     
-    // TODO should be backed by local storage
-    
     private var logs: [TmpLog] = []
     
     func push(_ log: TmpLog) {
         logs.append(log)
+    }
+    
+    func pushAll(_ sequence: [TmpLog]) {
+        logs.append(contentsOf: sequence)
     }
     
     func evict() -> [TmpLog] {
