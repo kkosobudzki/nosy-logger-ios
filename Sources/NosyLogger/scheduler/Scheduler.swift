@@ -43,10 +43,10 @@ class Scheduler {
         let encryptor = try Encryptor(remotePublicKey: remotePublicKey)
         let encrypted = try raw.map(encrypt(encryptor))
         
-        let _ = try await collector.log(logs: encrypted)
+        let _ = try await collector.log(encrypted)
     }
     
-    private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> NosyLogger_Log {
+    private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> Nosytools_Logger_Log {
         return { log in
             .with {
                 $0.date = ISO8601DateFormatter().string(from: log.date)
