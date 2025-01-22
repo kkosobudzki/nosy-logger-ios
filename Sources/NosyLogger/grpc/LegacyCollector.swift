@@ -10,11 +10,11 @@ import GRPC
 import NIO
 import NIOSSL
 
-enum CollectorError: Error {
+enum LegacyCollectorError: Error {
     case nilResponse
 }
 
-class Collector {
+class LegacyCollector {
     
     private var stub: NosyLogger_LoggerAsyncClient?
     
@@ -50,7 +50,7 @@ class Collector {
         let response = try await self.stub?.handshake(NosyLogger_Empty())
         
         if (response == nil) {
-            throw CollectorError.nilResponse
+            throw LegacyCollectorError.nilResponse
         }
         
         return response!.key
