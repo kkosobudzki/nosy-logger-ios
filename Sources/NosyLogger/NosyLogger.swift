@@ -23,25 +23,25 @@ public class NosyLogger : NSObject {
     
     @objc
     public func debug(_ message: String) {
-        log(message, NosyLogger_Level.debug)
+        log(message, Nosytools_Logger_Level.debug)
     }
     
     @objc
     public func info(_ message: String) {
-        log(message, NosyLogger_Level.info)
+        log(message, Nosytools_Logger_Level.info)
     }
     
     @objc
     public func warning(_ message: String) {
-        log(message, NosyLogger_Level.warn)
+        log(message, Nosytools_Logger_Level.warn)
     }
     
     @objc
     public func error(_ message: String) {
-        log(message, NosyLogger_Level.error)
+        log(message, Nosytools_Logger_Level.error)
     }
     
-    private func log(_ message: String, _ level: NosyLogger_Level) {
+    private func log(_ message: String, _ level: Nosytools_Logger_Level) {
         let log = TmpLog(
             message: message,
             date: Date(),

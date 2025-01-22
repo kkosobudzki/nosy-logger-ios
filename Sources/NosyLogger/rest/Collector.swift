@@ -36,12 +36,11 @@ struct Collector {
             $0.logs = list
         }
         
-        let data: Data = try logs.jsonUTF8Data()
-        
         let url = URL(string: "\(apiUrl)/collect")!
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+        request.httpBody = try logs.jsonUTF8Data()
         request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
         request.setValue("application/x-protobuf", forHTTPHeaderField: "accept")
         request.setValue("application/x-protobuf", forHTTPHeaderField: "content-type")

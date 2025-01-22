@@ -10,5 +10,5 @@ import Foundation
 struct TmpLog {
     let message: String
     let date: Date
-    let level: NosyLogger_Level
+    let level: Nosytools_Logger_Level
 }

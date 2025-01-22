@@ -46,7 +46,7 @@ class Scheduler {
         let _ = try await collector.log(encrypted)
     }
     
-    private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> NosyLogger_Log {
+    private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> Nosytools_Logger_Log {
         return { log in
             .with {
                 $0.date = ISO8601DateFormatter().string(from: log.date)
