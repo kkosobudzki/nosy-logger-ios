@@ -38,19 +38,12 @@ class Scheduler {
     }
     
     private func encryptAndSendLogs(_ raw: [TmpLog]) async throws {
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs")
         let remotePublicKey = try await collector.handshake()
-        
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs :: got public key: \(remotePublicKey)")
         
         let encryptor = try Encryptor(remotePublicKey: remotePublicKey)
         let encrypted = try raw.map(encrypt(encryptor))
         
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs :: encrypted, sending")
-        
         let _ = try await collector.log(encrypted)
-        
-        print("NosyLogger :: Scheduler :: encryptAndSendLogs :: sent")
     }
     
     private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> Nosytools_Logger_Log {

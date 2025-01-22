@@ -17,19 +17,17 @@ struct Collector {
     }
     
     func handshake() async throws -> String {
-        print("NosyLogger :: Collector :: handshake")
         let url = URL(string: "\(apiUrl)/handshake")!
         
-        print("NosyLogger :: Collector :: handshake url: \(url)")
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
         request.setValue("application/x-protobuf", forHTTPHeaderField: "accept")
-        print("NosyLogger :: Collector :: handshake request: \(url)")
+        
         let (data, _) = try await URLSession.shared.data(for: request)
-        print("NosyLogger :: Collector :: handshake data: \(data)")
+        
         let publicKey = try Nosytools_Logger_PublicKey(serializedBytes: data)
-        print("NosyLogger :: Collector :: handshake public key: \(publicKey)")
+        
         return publicKey.key
     }
     
