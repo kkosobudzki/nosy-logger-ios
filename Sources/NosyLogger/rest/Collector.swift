@@ -23,24 +23,29 @@ struct Collector {
         request.httpMethod = "GET"
         request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
         request.setValue("application/x-protobuf", forHTTPHeaderField: "accept")
-
         
         let (data, _) = try await URLSession.shared.data(for: request)
         
-        print(data)
+        let publicKey = try Nosytools_Logger_PublicKey(jsonUTF8Data: data)
         
-        // TODO: decode protobuf data
-        
-        return "TODO"
+        return publicKey.key
     }
     
-    func log(logs: [NosyLogger_Log]) async throws {
-        let request: NosyLogger_Logs = .with {
-            $0.logs = logs
+    func log(_ list: [Nosytools_Logger_Log]) async throws {
+        let logs: Nosytools_Logger_Logs = .with {
+            $0.logs = list
         }
         
-        // TODO: implement
+        let data: Data = try logs.jsonUTF8Data()
         
-//        let _ = try await self.stub?.log(request)
+        let url = URL(string: "\(apiUrl)/collect")!
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
+        request.setValue("application/x-protobuf", forHTTPHeaderField: "accept")
+        request.setValue("application/x-protobuf", forHTTPHeaderField: "content-type")
+        
+        let _ = try await URLSession.shared.data(for: request)
     }
 }

@@ -43,7 +43,7 @@ class Scheduler {
         let encryptor = try Encryptor(remotePublicKey: remotePublicKey)
         let encrypted = try raw.map(encrypt(encryptor))
         
-        let _ = try await collector.log(logs: encrypted)
+        let _ = try await collector.log(encrypted)
     }
     
     private func encrypt(_ encryptor: Encryptor) throws -> (TmpLog) -> NosyLogger_Log {
