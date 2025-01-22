@@ -40,9 +40,11 @@ struct Collector {
         
         let url = URL(string: "\(apiUrl)/collect")!
         
+        let body: Data = try logs.serializedBytes()
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.httpBody = try logs.jsonUTF8Data()
+        request.httpBody = body
         request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
         request.setValue("application/x-protobuf", forHTTPHeaderField: "accept")
         request.setValue("application/x-protobuf", forHTTPHeaderField: "content-type")
