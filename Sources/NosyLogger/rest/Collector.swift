@@ -28,7 +28,7 @@ struct Collector {
         print("NosyLogger :: Collector :: handshake request: \(url)")
         let (data, _) = try await URLSession.shared.data(for: request)
         print("NosyLogger :: Collector :: handshake data: \(data)")
-        let publicKey = try Nosytools_Logger_PublicKey(jsonUTF8Data: data)
+        let publicKey = try Nosytools_Logger_PublicKey(serializedBytes: data)
         print("NosyLogger :: Collector :: handshake public key: \(publicKey)")
         return publicKey.key
     }
