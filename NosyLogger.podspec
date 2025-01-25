@@ -11,12 +11,13 @@ Pod::Spec.new do |s|
   s.version          = '2.0.0'
   s.summary          = 'Collects, encrypts and transport logs'
 
-  s.homepage         = 'https://github.com/kkosobudzki/NosyLogger'
+  s.homepage         = 'https://github.com/kkosobudzki/nosy-logger-ios'
   s.license          = { :type => 'GPL v3', :file => 'LICENSE' }
   s.author           = { 'kkosobudzki' => 'krzysztof.kosobudzki@gmail.com' }
   s.source           = { :git => 'https://github.com/kkosobudzki/NosyLogger.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '15.0'
+  s.swift_versions        = '5.0'
 
   s.source_files = 'Sources/NosyLogger/**/*'
 
