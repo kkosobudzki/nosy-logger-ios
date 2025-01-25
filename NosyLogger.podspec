@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/kkosobudzki/nosy-logger-ios'
   s.license          = { :type => 'GPL v3', :file => 'LICENSE' }
   s.author           = { 'kkosobudzki' => 'krzysztof.kosobudzki@gmail.com' }
-  s.source           = { :git => 'https://github.com/kkosobudzki/NosyLogger.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/kkosobudzki/nosy-logger-ios.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '15.0'
   s.swift_versions        = '5.0'
